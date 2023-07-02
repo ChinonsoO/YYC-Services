@@ -3,6 +3,8 @@
 ## Project setup
 ```
 npm install
+
+Your own firebase wep app configuration is needed to run your own local server. Paste it in src/firbase/init.js where it tells you to paste it.
 ```
 
 ### Compiles and hot-reloads for development
