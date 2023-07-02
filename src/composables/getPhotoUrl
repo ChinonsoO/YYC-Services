@@ -1,0 +1,36 @@
+import {ref} from 'vue'
+
+import {db, getDoc, doc} from '@/firebase/init'
+
+const isGetPhotoUrlPending = ref(false)
+const getPhotoUrlError = ref(null)
+
+const getUrl = async (userId) => {
+  
+
+    try{
+        const docRef = doc(db, 'users', userId);
+        const docSnapshot = await getDoc(docRef);
+
+        if (!docSnapshot.exists()) {
+            throw new Error("No Users match this criteria please check back later")
+        }
+
+        let photoUrl = docSnapshot.data().userAvatarSrc || '';
+        isGetPhotoUrlPending.value = false;
+        return photoUrl;
+
+
+    }
+    catch (err){
+        getPhotoUrlError.value = err
+        isGetPhotoUrlPending.value = false
+    }
+
+}
+
+const getPhotoUrl = () => {
+    return {getUrl, isGetPhotoUrlPending, getPhotoUrlError }
+}
+
+export default getPhotoUrl
